@@ -195,11 +195,10 @@ export default function Component() {
 </HStack>
   <NextHead>
   <title>
-  {`Home`}
+  {`Reflex App`}
 </title>
   <meta content={`A Reflex app.`} name={`description`}/>
-  <meta content={`/github.svg`} property={`og:image`}/>
-  <meta content={`width=device-width, shrink-to-fit=no, initial-scale=1`} name={`viewport`}/>
+  <meta content={`favicon.ico`} property={`og:image`}/>
 </NextHead>
 </Fragment>
   )
