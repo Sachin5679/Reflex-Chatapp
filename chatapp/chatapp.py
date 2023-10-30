@@ -4,6 +4,7 @@ from chatapp import styles
 from chatapp.templates import template
 # Import all the pages.
 from chatapp.pages import *
+from chatapp.state import State
 
 import reflex as rx
 
@@ -21,30 +22,29 @@ def qa(question: str, answer: str) -> rx.Component:
     )
 
 def chat() -> rx.Component:
-    qa_pairs = [
-        (
-            "What is Reflex?",
-            "A way to build web apps in pure Python!",         
-        ),
-        (
-            "What can I make with it?",
-            "Anything from a simple website to a complex web app!",
-        ),
-    ]
     return rx.box(
-        *[
-            qa(question, answer) for question, answer in qa_pairs
-        ]
+        rx.foreach(
+            State.chat_history,
+            lambda messages: qa(messages[0], messages[1])
+        )
     )
 
 def action_bar() -> rx.Component:
     return rx.hstack(
         rx.input(
+            value=State.question,
             placeholder="Ask a question",
+            on_change=State.set_question,
             style=styles.input_style,
         ),
-        rx.button("Ask", style=styles.button_style),
+        rx.button(
+            "Ask",
+            on_click=State.answer,
+            style=styles.button_style,
+        ),
     )
+
+    
 @template(route="/", title="Home", image="/github.svg")
 def index() -> rx.Component:
     return rx.container(
